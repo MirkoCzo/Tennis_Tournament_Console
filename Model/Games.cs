@@ -136,7 +136,7 @@ namespace Tennis_Tournament_Console
        
         private bool IsTieBreakFinished(int player1Points, int player2Points)
         {
-            return (player1Points >= 7 || player2Points >= 7) && (player1Points - player2Points) >= 2;
+            return (player1Points >= 7 && player1Points-player2Points>=2) || (player2Points>=7 && player2Points-player1Points >= 2) ;
         }
 
 
