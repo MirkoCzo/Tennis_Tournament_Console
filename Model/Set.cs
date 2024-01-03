@@ -20,6 +20,8 @@ namespace Tennis_Tournament_Console
         public int id_match;
         private List<Games> games;
         private Match match;
+        bool isTieBreakPlayed = false;
+        bool isSuperTieBreakPlayed = false;
 
         public Set(int id,int idMatch)
         {
@@ -120,7 +122,7 @@ namespace Tennis_Tournament_Console
             int gameNumber = 0;
             Schedule.ScheduleType type = GetTypeMatch(this.match); // Utilisez l'objet match fourni
             games = new List<Games>();
-            while (!CheckIfSetIsFinished(scoreOp1, scoreOp2, match))
+            while (!CheckIfSetIsFinished(scoreOp1, scoreOp2, match) && !isTieBreakPlayed && !isSuperTieBreakPlayed)
             {
                 Games game = new Games(this.id, gameNumber);
                 gameNumber++;
@@ -147,7 +149,7 @@ namespace Tennis_Tournament_Console
                         Console.WriteLine("playing tie break");
                         game.PlayTieBreak();
                         UpdateSets(game);
-                        break;
+                        isTieBreakPlayed = true;
                     }
                    
                 }
@@ -155,6 +157,7 @@ namespace Tennis_Tournament_Console
                 {
                     game.PlayGame();
                     UpdateSets(game);
+                    isSuperTieBreakPlayed = true;
                 }
                 games.Add(game);
             }
