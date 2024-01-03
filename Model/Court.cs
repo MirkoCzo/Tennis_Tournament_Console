@@ -8,11 +8,19 @@ namespace Tennis_Tournament_Console
 {
     internal class Court
     {
+        
         private int id;
         private bool isAvailable;
         private int nbSpectators;
         private bool covered;
         //private static Queue<Court> courts = new Queue<Court>();
+        public Court() { }
+        public Court(int id, int nbSpec, bool covered)
+        {
+            this.id = id;
+            this.nbSpectators = nbSpec;
+            this.covered = covered;
+        }
 
         public bool Available()
         {

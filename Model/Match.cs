@@ -22,9 +22,21 @@ namespace Tennis_Tournament_Console
         private Court court;
         private List<Set> sets;
         private int id_Tournament;
-
-        
-
+        public Match() { }
+        public Match(int id, DateTime date, int duration, int round, ScheduleType type, Opponents opponents1, Opponents opponents2, Referee referee, Court court, int id_Tournament)
+        {
+            this.id = id;
+            this.date = date;
+            this.duration = duration;
+            this.round = round;
+            this.type = (int)type; // Assurez-vous que 'type' est de type ScheduleType
+            this.opponents1 = opponents1;
+            this.opponents2 = opponents2;
+            this.referee = referee;
+            this.court = court;
+            this.id_Tournament = id_Tournament;
+            this.sets = new List<Set>(); // Initialise la liste des sets
+        }
 
         public Opponents GetWinner()
         {

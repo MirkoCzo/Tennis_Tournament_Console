@@ -11,6 +11,12 @@ namespace Tennis_Tournament_Console
 {
     internal class Referee : Person
     {
+        public Referee() { }
+        public Referee(int id, string firstname, string lastname, string nationality)
+            : base(id, firstname, lastname, nationality)
+        {
+            
+        }
 
         private bool isAvailable;
         //private static Queue<Referee> referees = new Queue<Referee>();

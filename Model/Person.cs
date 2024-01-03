@@ -13,6 +13,16 @@ namespace Tennis_Tournament_Console
         private string lastname;
         private string nationality;
 
+        public Person() { }
+
+        public Person(int id, string firstname, string lastname, string nationality)
+        {
+            this.id = id;
+            this.firstname = firstname;
+            this.lastname = lastname;
+            this.nationality = nationality;
+        }
+
         public int getId()
         {
             return id;

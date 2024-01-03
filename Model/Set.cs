@@ -19,6 +19,7 @@ namespace Tennis_Tournament_Console
         private bool isFinished;
         public int id_match;
         private List<Games> games;
+        private Match match;
 
         public Set(int id,int idMatch)
         {
@@ -28,6 +29,11 @@ namespace Tennis_Tournament_Console
         public Set()
         {
 
+        }
+        public Set(int id, Match match)
+        {
+            this.id = id;
+            this.match = match;
         }
 
         public int getId()
@@ -109,14 +115,17 @@ namespace Tennis_Tournament_Console
 
         public void Play()
         {
+           
+            //Match match = getMatch(this.id_match);
             int gameNumber = 0;
-            Match match = getMatch(this.id_match);
-            Schedule.ScheduleType type = GetTypeMatch(match);
+            Schedule.ScheduleType type = GetTypeMatch(this.match); // Utilisez l'objet match fourni
+            games = new List<Games>();
+
             while (!CheckIfSetIsFinished(scoreOp1, scoreOp2, match))
             {
                 Games game = new Games(this.id, gameNumber);
                 gameNumber++;
-                if(gameNumber>=12 && (scoreOp1 == 6 && scoreOp2 == 6))
+                if(ShouldPlayTieBreak(gameNumber))
                 {
                     if(setNumber == 3 ||setNumber == 5)
                     {
@@ -148,6 +157,10 @@ namespace Tennis_Tournament_Console
                 games.Add(game);
             }
 
+        }
+        private bool ShouldPlayTieBreak(int gameNumber)
+        {
+            return gameNumber >= 12 && scoreOp1 == 6 && scoreOp2 == 6;
         }
         private bool CheckIfSetIsFinished(int ScoreOp1, int ScoreOp2, Match match)
         {
@@ -186,7 +199,11 @@ namespace Tennis_Tournament_Console
                 
         public Schedule.ScheduleType GetTypeMatch(Match match)
         {
-           int type = match.getType();
+            if (match == null)
+            {
+                throw new InvalidOperationException("L'objet Match est null.");
+            }
+            int type = match.getType();
             switch (type)
             {
                 case 0:
