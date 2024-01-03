@@ -88,14 +88,22 @@ namespace Tennis_Tournament_Console
             }
             if (player1Points>player2Points) { Console.WriteLine("Le joueur 1 gagne le jeu"); }
             else { Console.WriteLine("Le joueur 2 gagne le jeu"); }
-
-
+            Console.WriteLine("Récap des points du joueur 1: ");
+            foreach(int jeu in score_Op_One)
+            {
+                Console.WriteLine(jeu);
+            }
+            Console.WriteLine("Récap des points du joueur 2: ");
+            foreach (int jeu in score_Op_Two)
+            {
+                Console.WriteLine(jeu);
+            }
 
         }
         public void PlayTieBreak()
         {
             Random random = new Random();
-
+            int ptsCounter = 0;
             int player1Points = 0;
             int player2Points = 0;
 
@@ -107,17 +115,25 @@ namespace Tennis_Tournament_Console
                 {
                     score_Op_One.Add(player1Points++);
                     score_Op_Two.Add(player2Points);
+                    ptsCounter++;
                 }
                 else
                 {
                     score_Op_Two.Add(player2Points++);
                     score_Op_One.Add(player1Points);
+                    ptsCounter++;
                 }
-
+                DisplayCurrentScore(player1Points, player2Points);
+                if (ptsCounter%6==0)
+                {
+                    Console.WriteLine("Changement de côté");
+                }
             }
+            if (player1Points > player2Points) { Console.WriteLine("Le joueur 1 gagne le jeu"); }
+            else { Console.WriteLine("Le joueur 2 gagne le jeu"); }
 
         }
-
+       
         private bool IsTieBreakFinished(int player1Points, int player2Points)
         {
             return (player1Points >= 7 || player2Points >= 7) && (player1Points - player2Points) >= 2;

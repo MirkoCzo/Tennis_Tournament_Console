@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Tennis_Tournament_Console;
+using static Tennis_Tournament_Console.Schedule;
 
 namespace Tennis_Tournament_Console
 {
@@ -21,6 +22,8 @@ namespace Tennis_Tournament_Console
         private Court court;
         private List<Set> sets;
         private int id_Tournament;
+
+        
 
 
         public Opponents GetWinner()
