@@ -144,6 +144,7 @@ namespace Tennis_Tournament_Console
                     }
                     else
                     {
+                        Console.WriteLine("playing tie break");
                         game.PlayTieBreak();
                         UpdateSets(game);
                     }
@@ -164,10 +165,8 @@ namespace Tennis_Tournament_Console
         }
         private bool CheckIfSetIsFinished(int ScoreOp1, int ScoreOp2, Match match)
         {
-            Schedule.ScheduleType type;
-            type = GetTypeMatch(match);
-            int numberWinningSets = GetNbWinningSets(type);
-            return (ScoreOp1 >= numberWinningSets && ScoreOp1 - ScoreOp2 >= 2) || (ScoreOp2 >= numberWinningSets && ScoreOp2 - ScoreOp1 >= 2);
+      
+            return (ScoreOp1 >= 6 && ScoreOp1 - ScoreOp2 >= 2) || (ScoreOp2 >= 6 && ScoreOp2 - ScoreOp1 >= 2);
         }
 
         private bool CheckIfSuperTieBreak()

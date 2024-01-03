@@ -81,6 +81,7 @@ namespace Tennis_Tournament_Console
 
                 if (player1Points == 3 && player2Points == 3)//Gestion des égalités
                 {
+     
                     HandleDeuce(ref player1Points, ref player2Points);
                 }
                 DisplayCurrentScore(player1Points, player2Points);
@@ -148,33 +149,31 @@ namespace Tennis_Tournament_Console
         // Gestion des égalités (40-40)
         private void HandleDeuce(ref int player1Points, ref int player2Points)
         {
-            bool player1WinsPoint = new Random().Next(2) == 0;
-
-            if (player1WinsPoint)
+            while (player1Points == 4 && player2Points == 4)
             {
-                Console.WriteLine("Avantage joueur 1");
-                score_Op_One.Add(player1Points++);
-                score_Op_Two.Add(player2Points);
-                DisplayCurrentScore(player1Points, player2Points);
+                bool player1WinsPoint = new Random().Next(2) == 0;
 
-            }
-            else
-            {
-                Console.WriteLine("Avantage joueur 2");
-                score_Op_One.Add(player2Points++);
-                score_Op_One.Add(player1Points);
-                DisplayCurrentScore(player1Points, player2Points);
-
-
-                if (player1Points == 4 && player2Points == 4)
+                if (player1WinsPoint)
                 {
-                    Console.WriteLine("Perte d'avantage retour à l'égalité");
-                    player1Points = 3;
-                    player2Points = 3;
-                    score_Op_One.Add(player1Points);
+                    Console.WriteLine("Avantage joueur 1");
+                    score_Op_One.Add(player1Points++);
                     score_Op_Two.Add(player2Points);
+                    DisplayCurrentScore(player1Points, player2Points);
+                }
+                else
+                {
+                    Console.WriteLine("Avantage joueur 2");
+                    score_Op_One.Add(player2Points++);
+                    score_Op_Two.Add(player1Points);
+                    DisplayCurrentScore(player1Points, player2Points);
                 }
             }
+
+            Console.WriteLine("Perte d'avantage retour à l'égalité");
+            player1Points = 3;
+            player2Points = 3;
+            score_Op_One.Add(player1Points);
+            score_Op_Two.Add(player2Points);
         }
 
         private void DisplayCurrentScore(int player1Points, int player2Points)
@@ -183,4 +182,5 @@ namespace Tennis_Tournament_Console
         }
 
     }
-}
+    }
+
