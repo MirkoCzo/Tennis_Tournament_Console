@@ -152,23 +152,23 @@ namespace Tennis_Tournament_Console
 
             if (player1WinsPoint)
             {
+                Console.WriteLine("Avantage joueur 1");
                 score_Op_One.Add(player1Points++);
                 score_Op_Two.Add(player2Points);
-                Console.WriteLine("Avantage joueur 1");
                 DisplayCurrentScore(player1Points, player2Points);
 
             }
             else
             {
+                Console.WriteLine("Avantage joueur 2");
                 score_Op_One.Add(player2Points++);
                 score_Op_One.Add(player1Points);
-                Console.WriteLine("Avantage joueur 2");
                 DisplayCurrentScore(player1Points, player2Points);
 
 
                 if (player1Points == 4 && player2Points == 4)
                 {
-                    Console.WriteLine("Perte d'avantage");
+                    Console.WriteLine("Perte d'avantage retour à l'égalité");
                     player1Points = 3;
                     player2Points = 3;
                     score_Op_One.Add(player1Points);

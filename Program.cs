@@ -1,6 +1,8 @@
 ﻿using Tennis_Tournament_Console;
 
-Games game = new Games(1, 1, 0);
-Console.WriteLine("Starting a new game...");
-game.PlayTieBreak();
-//game.PlayGame();
+Games game1 = new Games(1, 0, 0);
+Games game2 = new Games(1, 0, 0);
+Console.WriteLine("Test TieBreak...");
+game1.PlayTieBreak();
+Console.WriteLine("Test Jeu Normal...");
+game2.PlayGame();
