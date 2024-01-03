@@ -125,7 +125,8 @@ namespace Tennis_Tournament_Console
             {
                 Games game = new Games(this.id, gameNumber);
                 gameNumber++;
-                if(ShouldPlayTieBreak(gameNumber))
+                Console.WriteLine("Jeu joué: "+gameNumber);
+                if (ShouldPlayTieBreak(gameNumber))
                 {
                     if(setNumber == 3 ||setNumber == 5)
                     {
