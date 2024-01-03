@@ -120,7 +120,6 @@ namespace Tennis_Tournament_Console
             int gameNumber = 0;
             Schedule.ScheduleType type = GetTypeMatch(this.match); // Utilisez l'objet match fourni
             games = new List<Games>();
-
             while (!CheckIfSetIsFinished(scoreOp1, scoreOp2, match))
             {
                 Games game = new Games(this.id, gameNumber);
@@ -148,6 +147,7 @@ namespace Tennis_Tournament_Console
                         Console.WriteLine("playing tie break");
                         game.PlayTieBreak();
                         UpdateSets(game);
+                        break;
                     }
                    
                 }
