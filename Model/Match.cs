@@ -135,6 +135,35 @@ namespace Tennis_Tournament_Console
         {
             this.type = type;
         }
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"ID du Match: {id}");
+            sb.AppendLine($"Date: {date.ToString("yyyy-MM-dd HH:mm")}");
+            sb.AppendLine($"Durée: {duration} minutes");
+            sb.AppendLine($"Round: {round}");
+            sb.AppendLine($"Type: {Enum.GetName(typeof(ScheduleType), type)}");
+            sb.AppendLine($"Opponents 1: {opponents1}");
+            sb.AppendLine($"Opponents 2: {opponents2}");
+            sb.AppendLine($"Arbitre: {referee}");
+            sb.AppendLine($"Court: {court}");
+
+            // Ajouter les détails des sets, si disponibles
+            if (sets != null && sets.Count > 0)
+            {
+                sb.AppendLine("Sets:");
+                foreach (var set in sets)
+                {
+                    sb.AppendLine($"  - {set}"); // Assurez-vous que la classe Set a une méthode ToString bien définie
+                }
+            }
+            else
+            {
+                sb.AppendLine("Aucun set n'a encore été joué.");
+            }
+
+            return sb.ToString();
+        }
 
 
     }

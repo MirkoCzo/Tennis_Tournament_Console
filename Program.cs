@@ -8,7 +8,49 @@ game.PlayTieBreak();
 Console.WriteLine("Test Jeu Normal...");
 game.PlayGame();*/
 
+/*/Tournament tournament = new Tournament(1,"Tournament Test",DateTime.Now);
+foreach(Court c in Tournament.courtsList)
+{
+    Console.WriteLine(c);
+}
+foreach(Referee r in Tournament.refereesList)
+{
+    Console.WriteLine(r);
+}*/
+int i = 0;
+// Créer et initialiser le tournoi
+Tournament tournament = new Tournament(1, "Grand Slam", new DateTime(2024, 1, 1));
+tournament.GenerateSchedules(); // Générer les schedules du tournoi
+foreach (Court c in Tournament.courtsList)
+{
+    Console.WriteLine(c);
+}
+foreach (Referee r in Tournament.refereesList)
+{
+    Console.WriteLine(r);
+}
 
+// Lancer le tournoi
+tournament.Play();
+
+// Afficher les résultats
+Console.WriteLine("Résultats du tournoi:");
+foreach (Schedule schedule in tournament.GetSchedules())
+{
+    Console.WriteLine("Schedule: ");
+    Console.WriteLine(schedule); // Afficher les détails du schedule (s'assurer que Schedule a une méthode ToString())
+    foreach (Match match in schedule.getMatchsList())
+    {
+        Console.WriteLine("Match: ");
+        Console.WriteLine(match); // Afficher les détails de chaque match
+    }
+}
+
+Console.WriteLine("Le tournoi est terminé.");
+
+
+
+/*
 // Création des objets nécessaires (remplacer par des objets réels)
 Opponents opponents1 = new Opponents(1,new Player(1,"Mirko","Cuozzo","BEL",2,"MALE"));
 Opponents opponents2 = new Opponents(2,new Player(2,"Cedric","Ruitenbeek","BEL",3,"MALE"));
@@ -24,3 +66,4 @@ set.Play();
 
 // Affichage des résultats du set
 Console.WriteLine($"Score final du set: Joueur 1 - {set.getScoreOp1()}, Joueur 2 - {set.getScoreOp2()}");
+*/

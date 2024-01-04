@@ -13,7 +13,7 @@ namespace Tennis_Tournament_Console.DAO
         public override int Create(Opponents obj)
         {
             int res = -1;
-            try
+            /*try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
@@ -27,7 +27,7 @@ namespace Tennis_Tournament_Console.DAO
                 }catch (SqlException ex)
             {
                 Console.WriteLine(ex.Message);
-            }
+            }*/
             return res;
         }
 

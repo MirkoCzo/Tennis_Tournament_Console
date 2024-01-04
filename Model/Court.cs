@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace Tennis_Tournament_Console
@@ -63,6 +64,10 @@ namespace Tennis_Tournament_Console
         public void setCovered(bool covered)
         {
             this.covered = covered;
+        }
+        public override string ToString()
+        {
+            return $"Court ID: {this.id}, Nb Spectators: {this.nbSpectators}, Covered: {this.covered}";
         }
     }
 }

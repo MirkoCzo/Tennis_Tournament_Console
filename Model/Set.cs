@@ -136,12 +136,16 @@ namespace Tennis_Tournament_Console
                             SuperTieBreak superTieBreak = new SuperTieBreak(this.id, gameNumber);
                             superTieBreak.PlaySuperTieBreak();
                             UpdateSets(superTieBreak);
+                            isSuperTieBreakPlayed = true;
+
                         }
                         else if (type != Schedule.ScheduleType.GentlemenSingle && setNumber == 3)
                         {
                             SuperTieBreak superTieBreak = new SuperTieBreak(this.id, gameNumber);
                             superTieBreak.PlaySuperTieBreak();
                             UpdateSets(superTieBreak);
+                            isSuperTieBreakPlayed = true;
+
                         }
                     }
                     else
@@ -157,7 +161,6 @@ namespace Tennis_Tournament_Console
                 {
                     game.PlayGame();
                     UpdateSets(game);
-                    isSuperTieBreakPlayed = true;
                 }
                 games.Add(game);
             }
@@ -232,6 +235,17 @@ namespace Tennis_Tournament_Console
         {
             Schedule schedule = new Schedule(scheduleType);
             return schedule.NbWinningSets();
+        }
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"Set Numéro: {setNumber}");
+            sb.AppendLine($"Score: Joueur 1: {scoreOp1}, Joueur 2: {scoreOp2}");
+            sb.Append($"Super Tie-Break Joué: {isSuperTieBreak}");
+            sb.AppendLine($"Tie-Break Joué: {isTieBreakPlayed}");
+            sb.Append(isFinished ? "Le set est terminé." : "Le set n'est pas encore terminé.");
+
+            return sb.ToString();
         }
     }
   

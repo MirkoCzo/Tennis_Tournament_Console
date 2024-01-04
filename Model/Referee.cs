@@ -46,5 +46,10 @@ namespace Tennis_Tournament_Console
             //Referee.referees = tmp;
         }
 
+        public override string ToString()
+        {
+            return $"Referee ID: {this.getId()}, FirstName: {this.getFirstname()}, LastName: {this.getLastname()}, Nationality:{this.getNationality()}";
+        }
+
     }
 }

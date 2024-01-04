@@ -117,6 +117,7 @@ namespace Tennis_Tournament_Console.DAO
                     while (reader.Read()) 
                     {
                         Referee referee = new Referee();
+                        referee.setId(reader.GetInt32(0));
                         referee.setFirstname(reader.GetString(1));
                         referee.setLastname(reader.GetString(2));
                         referee.setNationality(reader.GetString(3));

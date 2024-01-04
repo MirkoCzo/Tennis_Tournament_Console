@@ -61,6 +61,7 @@ namespace Tennis_Tournament_Console
                 if (Tournament.courtsList.Count == 0 || Tournament.refereesList.Count == 0)
                 {
                     matchesCount--;
+                    Console.WriteLine("Plus d'arbitre ou de courts dispo");
                 }
                 else
                 {
@@ -77,6 +78,8 @@ namespace Tennis_Tournament_Console
                     {
                         currentDate = currentDate.AddDays(1);
                         currentDate = currentDate.Date.AddHours(10);
+                        Console.WriteLine("On rajoute un jours");
+
                     }
                     else
                     {
@@ -94,12 +97,14 @@ namespace Tennis_Tournament_Console
                     {
                         m.setId(matchId);
                     }
+                    Console.WriteLine($"On va jouer le match: {m}");
                     await m.Play();
                     matcheList.Enqueue(m);
                     Tournament.courtsList.Enqueue(court);
                     Tournament.refereesList.Enqueue(referee);
                     winners.Add(m.GetWinner());
                     matchesPlayed++;
+                    Console.WriteLine($"Le gagnant est "+m.GetWinner);
                 }
             }
             opponentsList = new Queue<Opponents>(winners);
@@ -247,6 +252,15 @@ namespace Tennis_Tournament_Console
             {
                 queue.Enqueue(item);
             }
+        }
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"Type de Programme: {scheduleType}");
+            sb.AppendLine($"Tour Actuel: {actualRound}");
+            sb.Append($"Nombre de Matchs: {matcheList.Count}");
+
+            return sb.ToString();
         }
     }
 }
