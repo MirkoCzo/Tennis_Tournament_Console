@@ -16,7 +16,7 @@ namespace Tennis_Tournament_Console.DAO
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand($"INSERT INTO dbo.Tournament (Name) VALUES (@Name)", connection);
+                    SqlCommand cmd = new SqlCommand($"INSERT INTO dbo.Tournament (Name) OUTPUT INSERTED.Id_Tournament VALUES (@Name)", connection);
                     cmd.Parameters.AddWithValue("Name", obj.getName());
                     connection.Open();
                     res = Convert.ToInt32(cmd.ExecuteScalar());

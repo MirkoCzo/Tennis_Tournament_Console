@@ -104,7 +104,7 @@ namespace Tennis_Tournament_Console
                     Tournament.refereesList.Enqueue(referee);
                     winners.Add(m.GetWinner());
                     matchesPlayed++;
-                    Console.WriteLine($"Le gagnant est "+m.GetWinner);
+                    Console.WriteLine($"Le gagnant est "+m.GetWinner());
                 }
             }
             opponentsList = new Queue<Opponents>(winners);
@@ -265,6 +265,25 @@ namespace Tennis_Tournament_Console
         public Queue<Opponents> GetOpponentsList()
         {
             return opponentsList;
+        }
+        public static int GetNbWinningSets(int type)
+        {
+            switch (type)
+            {
+                case 0:
+                    return 3; // 3 sets gagnants pour les programmes simples
+                case 1:
+                    return 2; // 2 sets gagnants pour les programmes simples
+                case 2:
+                    return 2; // 2 sets gagnants pour les programmes simples
+                case 3:
+                    return 2; // 2 sets gagnants pour les programmes doubles
+                case 4:
+                    return 2; // 2 sets gagnants pour les programmes doubles
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
         }
     }
 }

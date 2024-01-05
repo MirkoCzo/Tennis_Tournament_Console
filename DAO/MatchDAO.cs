@@ -21,7 +21,7 @@ namespace Tennis_Tournament_Console.DAO
             {
                 using(SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand($"INSERT INTO dbo.Match(Date,Duration,Round,Type,Id_Opponent_1,Id_Opponent_2,Id_Tournament,Id_Court,Id_Ref) VALUES(@Date,@Duration,@Roud,@Type,@Id_Opponent_1,@Id_Opponent_2,@Id_Tournament,@Id_Court,@Id_Ref)", connection);
+                    SqlCommand cmd = new SqlCommand($"INSERT INTO dbo.Match(Date,Duration,Round,Type,Id_Opponent_1,Id_Opponent_2,Id_Tournament,Id_Court,Id_Ref) OUTPUT INSERTED.Id_Match VALUES(@Date,@Duration,@Round,@Type,@Id_Opponent_1,@Id_Opponent_2,@Id_Tournament,@Id_Court,@Id_Ref)", connection);
                     cmd.Parameters.AddWithValue("Date", obj.getDate());
                     cmd.Parameters.AddWithValue("Duration", obj.getDuration());
                     cmd.Parameters.AddWithValue("Round", obj.getRound());

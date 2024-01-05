@@ -40,11 +40,11 @@ foreach (Schedule s in tournament.GetSchedules())
         
         if (op.Player2 != null)
         {
-            Console.WriteLine($"{x}-{op.Player2.getFirstname()}-{op.Player1.getFirstname()}");
+            Console.WriteLine($"{x}-{op.Player2.getFirstname()}-{op.Player1.getFirstname()} id : {op.Id}");
 
         }
         else {
-            Console.WriteLine($"{x}-{op.Player1.getFirstname()}");
+            Console.WriteLine($"{x}-{op.Player1.getFirstname()} id : {op.Id}");
 
         }
         x++;
@@ -53,9 +53,11 @@ foreach (Schedule s in tournament.GetSchedules())
 }
 
 // Lancer le tournoi
-//tournament.Play();
+Console.WriteLine("On lance le tournoi");
+tournament.Play();
 
 // Afficher les résultats
+/*
 Console.WriteLine("Résultats du tournoi:");
 foreach (Schedule schedule in tournament.GetSchedules())
 {
@@ -70,7 +72,7 @@ foreach (Schedule schedule in tournament.GetSchedules())
 
 Console.WriteLine("Le tournoi est terminé.");
 
-
+*/
 
 
 /*

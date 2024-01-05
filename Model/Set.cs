@@ -6,6 +6,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.NetworkInformation;
 
 namespace Tennis_Tournament_Console
 {
@@ -20,6 +21,9 @@ namespace Tennis_Tournament_Console
         public int id_match;
         private List<Games> games;
         private Match match;
+        private GamesDAO gameDAO = new GamesDAO();
+        private MatchDAO matchDAO = new MatchDAO();
+
         bool isTieBreakPlayed = false;
         bool isSuperTieBreakPlayed = false;
 
@@ -28,14 +32,18 @@ namespace Tennis_Tournament_Console
             this.id = id;
             this.id_match= idMatch;
         }
-        public Set()
+        public Set(int idMatch)
         {
-
+            this.id_match = idMatch;
         }
         public Set(int id, Match match)
         {
             this.id = id;
             this.match = match;
+        }
+        public Set()
+        {
+
         }
 
         public int getId()
@@ -118,9 +126,9 @@ namespace Tennis_Tournament_Console
         public void Play()
         {
            
-            //Match match = getMatch(this.id_match);
+            Match match = getMatch(this.id_match);
             int gameNumber = 0;
-            Schedule.ScheduleType type = GetTypeMatch(this.match); // Utilisez l'objet match fourni
+            Schedule.ScheduleType type = GetTypeMatch(match); // Utilisez l'objet match fourni
             games = new List<Games>();
             while (!CheckIfSetIsFinished(scoreOp1, scoreOp2, match) && !isTieBreakPlayed && !isSuperTieBreakPlayed)
             {
@@ -162,10 +170,26 @@ namespace Tennis_Tournament_Console
                     game.PlayGame();
                     UpdateSets(game);
                 }
+                game.setGameNumber(gameNumber);
+                game.setIdSet(this.id);
+                int id = gameDAO.Create(game);
+                game.setId(id);
                 games.Add(game);
             }
 
         }
+        public Opponents GetWinner()
+        {
+            if (scoreOp1 > scoreOp2)
+            {
+                return (matchDAO.Find(this.id_match)).getOpponents1();
+            }
+            else
+            {
+                return (matchDAO.Find(this.id_match)).getOpponents2();
+            }
+        }
+
         private bool ShouldPlayTieBreak(int gameNumber)
         {
             return gameNumber >= 12 && scoreOp1 == 6 && scoreOp2 == 6;

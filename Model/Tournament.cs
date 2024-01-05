@@ -19,6 +19,7 @@ namespace Tennis_Tournament_Console
         public static Queue<Referee> refereesList;
         public static DateTime date;
         private List<Schedule> scheduleList;
+        private TournamentDAO tournamentDAO = new TournamentDAO();
 
         public Tournament(int id, string name, DateTime date)
         {
@@ -49,8 +50,10 @@ namespace Tennis_Tournament_Console
 
         public void Play()
         {
-            Console.WriteLine("On Génère les Schedules");
-            GenerateSchedules();
+            Console.WriteLine("Methode play :");
+            //Console.WriteLine("On Génère les Schedules");
+            //GenerateSchedules();
+            /*
             foreach(Schedule schedule in scheduleList)
             {
                 Console.WriteLine("Liste opponents :");
@@ -64,6 +67,9 @@ namespace Tennis_Tournament_Console
                     }
                 }
             }
+            */
+            int id = tournamentDAO.Create(this);
+            this.setId(id);
             foreach (Schedule s in scheduleList)
             {
                 Console.WriteLine("On joue les schedules");
