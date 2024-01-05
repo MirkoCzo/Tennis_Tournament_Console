@@ -27,7 +27,7 @@ namespace Tennis_Tournament_Console
         public Opponents(Player player1,Player? player2)
         {
             this.player1 = player1;
-            this.player2 = null;
+            this.player2 = player2;
         }
         public int Id { get { return id; } set { this.id = value; } }
         public Player Player1 { get { return player1; } set { this.player1 = value; } }

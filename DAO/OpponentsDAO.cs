@@ -13,13 +13,13 @@ namespace Tennis_Tournament_Console.DAO
         public override int Create(Opponents obj)
         {
             int res = -1;
-            /*try
+            try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand($"INSERT INTO dbo.Opponents(Id_Player1,Id_Player2) VALUES(@Id_Player1,@Id_Player2)", connection);
-                    cmd.Parameters.AddWithValue("Id_Player1", obj.Player1);
-                    cmd.Parameters.AddWithValue("Id_Player2", obj.Player2);
+                    SqlCommand cmd = new SqlCommand($"INSERT INTO dbo.Opponents(Id_Player_1,Id_Player_2) VALUES(@Id_Player_1,@Id_Player_2)", connection);
+                    cmd.Parameters.AddWithValue("Id_Player_1", obj.Player1.getId());
+                    cmd.Parameters.AddWithValue("Id_Player_2", obj.Player2?.getId() ?? (object)DBNull.Value);
                     connection.Open();
                     res = Convert.ToInt32(cmd.ExecuteScalar());
                 }
@@ -27,7 +27,7 @@ namespace Tennis_Tournament_Console.DAO
                 }catch (SqlException ex)
             {
                 Console.WriteLine(ex.Message);
-            }*/
+            }
             return res;
         }
 

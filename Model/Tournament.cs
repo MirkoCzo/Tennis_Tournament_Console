@@ -51,6 +51,19 @@ namespace Tennis_Tournament_Console
         {
             Console.WriteLine("On Génère les Schedules");
             GenerateSchedules();
+            foreach(Schedule schedule in scheduleList)
+            {
+                Console.WriteLine("Liste opponents :");
+                foreach (Opponents op in schedule.GetOpponentsList())
+                { 
+                    Console.WriteLine(op.Player1.getFirstname());
+                    if (op.Player2 != null)
+                    {
+                        Console.WriteLine(op.Player2.getFirstname());
+
+                    }
+                }
+            }
             foreach (Schedule s in scheduleList)
             {
                 Console.WriteLine("On joue les schedules");

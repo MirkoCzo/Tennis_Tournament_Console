@@ -262,5 +262,9 @@ namespace Tennis_Tournament_Console
 
             return sb.ToString();
         }
+        public Queue<Opponents> GetOpponentsList()
+        {
+            return opponentsList;
+        }
     }
 }

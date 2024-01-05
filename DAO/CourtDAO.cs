@@ -94,7 +94,8 @@ namespace Tennis_Tournament_Console.DAO
                         Court court = new Court();
                         court.setId(reader.GetInt32(0));
                         court.setNbSpectators(reader.GetInt32(1));
-                        bool covered = reader.GetBoolean(2);           // Lecture d'un booléen pour la colonne 'covered'
+                        int intValue = reader.GetInt32(2);
+                        bool covered = (intValue != 0);       
                         court.setCovered(covered);
                         courts.Add(court);
                     }

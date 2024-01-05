@@ -29,9 +29,31 @@ foreach (Referee r in Tournament.refereesList)
 {
     Console.WriteLine(r);
 }
+foreach (Schedule s in tournament.GetSchedules())
+{
+    Console.WriteLine("Schedule " + i);
+    Console.WriteLine(s);
+    Console.WriteLine("=========================");
+    int x = 1;
+    foreach (Opponents op in s.GetOpponentsList())
+    {
+        
+        if (op.Player2 != null)
+        {
+            Console.WriteLine($"{x}-{op.Player2.getFirstname()}-{op.Player1.getFirstname()}");
+
+        }
+        else {
+            Console.WriteLine($"{x}-{op.Player1.getFirstname()}");
+
+        }
+        x++;
+    }
+    i++;
+}
 
 // Lancer le tournoi
-tournament.Play();
+//tournament.Play();
 
 // Afficher les résultats
 Console.WriteLine("Résultats du tournoi:");
@@ -47,6 +69,7 @@ foreach (Schedule schedule in tournament.GetSchedules())
 }
 
 Console.WriteLine("Le tournoi est terminé.");
+
 
 
 
