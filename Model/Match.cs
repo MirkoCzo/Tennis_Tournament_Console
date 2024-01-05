@@ -34,6 +34,7 @@ namespace Tennis_Tournament_Console
 
         public async Task<Opponents> Play()
         {
+            sets = new List<Set>();
             int ScoreOp1 = 0;
             int ScoreOp2 = 0;
             int setNumber = 1;
