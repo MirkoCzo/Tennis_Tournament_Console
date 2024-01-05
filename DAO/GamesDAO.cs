@@ -17,7 +17,7 @@ namespace Tennis_Tournament_Console.DAO
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand($"INSERT INTO dbo.Game (Game_Number,Score_Op_One,Score_Op_Two,Id_Set) VALUES (@GameNumber, @ScoreOne, @ScoreTwo, @Id_Set)", connection);
+                    SqlCommand cmd = new SqlCommand($"INSERT INTO dbo.Games (Game_Number,Score_Op_One,Score_Op_Two,Id_Set) OUTPUT INSERTED.Id_Game VALUES (@GameNumber, @ScoreOne, @ScoreTwo, @Id_Set)", connection);
                     cmd.Parameters.AddWithValue("GameNumber", obj.getGameNumber());
                     cmd.Parameters.AddWithValue("ScoreOne", obj.getScoreOpOne().Sum());//cmd.Parameters.AddWithValue("ScoreOne",obj.getScoreOpOne());si on veut tous enregister on doit soit faire une nouvelle table
                     cmd.Parameters.AddWithValue("ScoreTwo", obj.getScoreOpTwo().Sum());//cmd.Parameters.AddWithValue("ScoreTwo", obj.getScoreOpTwo()); ou alors enregister en varchar
@@ -41,7 +41,7 @@ namespace Tennis_Tournament_Console.DAO
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand($"DELETE FROM dbo.Game WHERE Id_Game = @Id", connection);
+                    SqlCommand cmd = new SqlCommand($"DELETE FROM dbo.Games WHERE Id_Game = @Id", connection);
                     cmd.Parameters.AddWithValue("Id", obj.getId());
                     connection.Open();
                     int res = cmd.ExecuteNonQuery();
@@ -62,7 +62,7 @@ namespace Tennis_Tournament_Console.DAO
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand($"SELECT * FROM dbo.Game WHERE Id_Game = @Id", connection);
+                    SqlCommand cmd = new SqlCommand($"SELECT * FROM dbo.Games WHERE Id_Game = @Id", connection);
                     cmd.Parameters.AddWithValue("Id", id);
                     connection.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -95,7 +95,7 @@ namespace Tennis_Tournament_Console.DAO
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand($"SELECT * FROM dbo.Game", connection);
+                    SqlCommand cmd = new SqlCommand($"SELECT * FROM dbo.Games", connection);
                     connection.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -129,7 +129,7 @@ namespace Tennis_Tournament_Console.DAO
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand($"UPDATE dbo.Game SET Game_Number = @Game, Score_Op_One = @ScoreOne, Score_Op_Two = @ScoreTwo, Id_Set=@Id_Set WHERE Id_Game = @Id", connection);
+                    SqlCommand cmd = new SqlCommand($"UPDATE dbo.Games SET Game_Number = @Game, Score_Op_One = @ScoreOne, Score_Op_Two = @ScoreTwo, Id_Set=@Id_Set WHERE Id_Game = @Id", connection);
                     cmd.Parameters.AddWithValue("Id", obj.getId());
                     cmd.Parameters.AddWithValue("Game",obj.getGameNumber());
                     cmd.Parameters.AddWithValue("ScoreOne", obj.getScoreOpOne());

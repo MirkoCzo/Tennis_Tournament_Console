@@ -163,5 +163,10 @@ namespace Tennis_Tournament_Console
             int numberWinningSets = Schedule.GetNbWinningSets(this.type);
             return (ScoreOp1 >= numberWinningSets) || (ScoreOp2 >= numberWinningSets);
         }
+
+        internal void setDuration(object value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

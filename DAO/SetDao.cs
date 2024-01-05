@@ -20,7 +20,7 @@ namespace Tennis_Tournament_Console.DAO
                     connection.Open();
                     using (SqlCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "INSERT INTO dbo.Sets (Score_Op_One, Score_Op_Two, Set_Number, Id_Match) VALUES (@scoreOp1, @scoreOp2, @setNumber, @id_match); SELECT SCOPE_IDENTITY();";
+                        command.CommandText = "INSERT INTO dbo.Sets (Score_Op_One, Score_Op_Two, Set_Number, Id_Match) OUTPUT INSERTED.Id_Set VALUES (@scoreOp1, @scoreOp2, @setNumber, @id_match);";
                         command.Parameters.AddWithValue("scoreOp1", obj.getScoreOp1());
                         command.Parameters.AddWithValue("scoreOp2", obj.getScoreOp2());
                         command.Parameters.AddWithValue("setNumber", obj.getSetNumber());

@@ -92,20 +92,25 @@ namespace Tennis_Tournament_Console
                     m.setReferee(referee);
                     m.setCourt(court);
                     m.setRound(actualRound);
+                    m.setDuration(0);
                     int matchId = matchDAO.Create(m);
                     if (matchId != -1)
                     {
                         m.setId(matchId);
-                        Console.WriteLine("Erreur lors de la création du match");
+                        //Console.WriteLine("Erreur lors de la création du match");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Erreur creation match");
                     }
                     Console.WriteLine($"On va jouer le match: {m}");
-                    await m.Play();
+                    Opponents op = await m.Play();
                     matcheList.Enqueue(m);
                     Tournament.courtsList.Enqueue(court);
                     Tournament.refereesList.Enqueue(referee);
-                    winners.Add(m.GetWinner());
+                    winners.Add(op);
                     matchesPlayed++;
-                    Console.WriteLine($"Le gagnant est "+m.GetWinner());
+                    Console.WriteLine($"Le gagnant est : {op.Player1.getFirstname()}");
                 }
             }
             opponentsList = new Queue<Opponents>(winners);
