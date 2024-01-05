@@ -96,6 +96,7 @@ namespace Tennis_Tournament_Console
                     if (matchId != -1)
                     {
                         m.setId(matchId);
+                        Console.WriteLine("Erreur lors de la création du match");
                     }
                     Console.WriteLine($"On va jouer le match: {m}");
                     await m.Play();

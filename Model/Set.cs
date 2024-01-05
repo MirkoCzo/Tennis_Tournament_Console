@@ -127,6 +127,7 @@ namespace Tennis_Tournament_Console
         {
            
             Match match = getMatch(this.id_match);
+            Console.WriteLine("Match!: "+match);
             int gameNumber = 0;
             Schedule.ScheduleType type = GetTypeMatch(match); // Utilisez l'objet match fourni
             games = new List<Games>();

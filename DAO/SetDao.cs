@@ -15,12 +15,12 @@ namespace Tennis_Tournament_Console.DAO
             int res = -1;
             try
             {
-                using(SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    using(SqlCommand command = connection.CreateCommand())
+                    using (SqlCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "INSERT INTO Set (Score_Op_One,Score_Op_Two , Set_Number, Id_Match) VALUES (@scoreOp1, @scoreOp2, @setNumber, @id_match)";
+                        command.CommandText = "INSERT INTO dbo.Sets (Score_Op_One, Score_Op_Two, Set_Number, Id_Match) VALUES (@scoreOp1, @scoreOp2, @setNumber, @id_match); SELECT SCOPE_IDENTITY();";
                         command.Parameters.AddWithValue("scoreOp1", obj.getScoreOp1());
                         command.Parameters.AddWithValue("scoreOp2", obj.getScoreOp2());
                         command.Parameters.AddWithValue("setNumber", obj.getSetNumber());
@@ -28,10 +28,11 @@ namespace Tennis_Tournament_Console.DAO
                         res = Convert.ToInt32(command.ExecuteScalar());
                     }
                 }
-
-            }catch(SqlException e)
+            }
+            catch (SqlException e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine($"SQL Error: {e.Message}");
+                Console.WriteLine($"Stack Trace: {e.StackTrace}");
             }
             return res;
         }

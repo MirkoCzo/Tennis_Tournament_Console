@@ -66,15 +66,15 @@ namespace Tennis_Tournament_Console.DAO
         public override Match Find(int id)
         {
             Match match = null;
-            try 
+            try
             {
-               using(SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     SqlCommand cmd = new SqlCommand($"SELECT * FROM dbo.Match WHERE Id_Match = @Id", connection);
-                    cmd.Parameters.AddWithValue("Id", id);
+                    cmd.Parameters.AddWithValue("Id", id); 
                     connection.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
-                    if(reader.Read())
+                    if (reader.Read())
                     {
                         match = new Match();
                         match.setId((int)reader["Id_Match"]);
@@ -83,15 +83,20 @@ namespace Tennis_Tournament_Console.DAO
                         match.setRound((int)reader["Round"]);
                         match.setType((int)reader["Type"]);
                         match.setId_Tournament((int)reader["Id_Tournament"]);
+
                         OpponentsDAO opponentsDAO = new OpponentsDAO();
                         match.setOpponents1(opponentsDAO.Find((int)reader["Id_Opponent_1"]));
                         match.setOpponents2(opponentsDAO.Find((int)reader["Id_Opponent_2"]));
-                        match.getCourt().setId((int)reader["Id_Court"]);//PAREIL POUR COURT
+
+                        CourtDAO courtDAO = new CourtDAO();
+                        match.setCourt(courtDAO.Find((int)reader["Id_Court"])); // Utilisation d'un DAO pour instancier Court
+
                         RefereeDAO refereeDAO = new RefereeDAO();
                         match.setReferee(refereeDAO.Find((int)reader["Id_Ref"]));
                     }
                 }
-            }catch(SqlException ex)
+            }
+            catch (SqlException ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -151,7 +156,7 @@ namespace Tennis_Tournament_Console.DAO
                     cmd.Parameters.AddWithValue("Id_Tournament", obj.getId_Tournament());
                     cmd.Parameters.AddWithValue("Id_Court", obj.getCourt().getId());
                     cmd.Parameters.AddWithValue("Id_Ref", obj.getReferee().getId());
-                    cmd.Parameters.AddWithValue("Id", obj.getId());
+                    cmd.Parameters.AddWithValue("Id_match", obj.getId());
                     connection.Open();
                     int res = cmd.ExecuteNonQuery();
                     success = res > 0;

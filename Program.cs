@@ -35,6 +35,7 @@ foreach (Schedule s in tournament.GetSchedules())
     Console.WriteLine(s);
     Console.WriteLine("=========================");
     int x = 1;
+    Console.WriteLine(s.GetOpponentsList());
     foreach (Opponents op in s.GetOpponentsList())
     {
         

@@ -43,7 +43,7 @@ namespace Tennis_Tournament_Console.DAO
                 using(SqlConnection connection = new SqlConnection(connectionString))
                 {
                     SqlCommand cmd = new SqlCommand($"DELETE FROM dbo.Referee WHERE Id_Referee = @Id", connection);
-                    cmd.Parameters.AddWithValue("Id_Referee", obj.getId);
+                    cmd.Parameters.AddWithValue("Id", obj.getId);
                     connection.Open();
                     int res = cmd.ExecuteNonQuery();
                     success = res > 0;
@@ -88,7 +88,7 @@ namespace Tennis_Tournament_Console.DAO
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand($"UPDATE dbo.Referee SET FirstName = @FirstName, LastName = @LastName, Nationality = @Nationality WHERE Id = @Id", connection);
+                    SqlCommand cmd = new SqlCommand($"UPDATE dbo.Referee SET FirstName = @FirstName, LastName = @LastName, Nationality = @Nationality WHERE Id_Referee = @Id", connection);
                     cmd.Parameters.AddWithValue("Id", obj.getId()); 
                     cmd.Parameters.AddWithValue("FirstName", obj.getFirstname());
                     cmd.Parameters.AddWithValue("LastName", obj.getLastname());

@@ -71,6 +71,8 @@ namespace Tennis_Tournament_Console.DAO
                     SqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
+                        player = new Player();
+                        Console.WriteLine("ID DU PLAYER"+reader.GetInt32(0));
                         player.setId(reader.GetInt32(0));
                         player.setFirstname(reader.GetString(1));
                         player.setLastname(reader.GetString(2));

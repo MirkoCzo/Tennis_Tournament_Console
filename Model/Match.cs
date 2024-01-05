@@ -52,6 +52,8 @@ namespace Tennis_Tournament_Console
                 set.setSetNumber(setNumber);
                 setNumber++;
                 int id = setDAO.Create(set);
+                Console.WriteLine("SET: " + set);
+                Console.WriteLine("SET ID: " + id);
                 set.setId(id);
                 sets.Add(set);
             }
