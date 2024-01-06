@@ -6,7 +6,6 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using Tennis_Tournament_Console;
 
 
 namespace Tennis_Tournament_Console.DAO
@@ -43,7 +42,7 @@ namespace Tennis_Tournament_Console.DAO
                 using(SqlConnection connection = new SqlConnection(connectionString))
                 {
                     SqlCommand cmd = new SqlCommand($"DELETE FROM dbo.Referee WHERE Id_Referee = @Id", connection);
-                    cmd.Parameters.AddWithValue("Id", obj.getId);
+                    cmd.Parameters.AddWithValue("Id_Referee", obj.getId());
                     connection.Open();
                     int res = cmd.ExecuteNonQuery();
                     success = res > 0;
@@ -57,12 +56,13 @@ namespace Tennis_Tournament_Console.DAO
 
         public override Referee Find(int id)
         {
-            Referee referee = null;
+            Referee referee = new Referee();
             try
             {
+                
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand($"SELECT * FROM dbo.Referee WHERE Id = @Id", connection);
+                    SqlCommand cmd = new SqlCommand($"SELECT * FROM dbo.Referee WHERE Id_Referee = @Id", connection);
                     cmd.Parameters.AddWithValue("Id", id);
                     connection.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -71,7 +71,7 @@ namespace Tennis_Tournament_Console.DAO
                         referee.setId(reader.GetInt32(0));
                         referee.setFirstname(reader.GetString(1));
                         referee.setLastname(reader.GetString(2));
-                        referee.setNationality(reader.GetString(5));
+                        referee.setNationality(reader.GetString(3));
                     }
                 }
             }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tennis_Tournament_Console
+namespace Tennis_Tournament_Console.Model
 {
     internal class Opponents
     {
@@ -28,6 +28,10 @@ namespace Tennis_Tournament_Console
         {
             this.player1 = player1;
             this.player2 = player2;
+        }
+        public Opponents()
+        {
+          
         }
         public int Id { get { return id; } set { this.id = value; } }
         public Player Player1 { get { return player1; } set { this.player1 = value; } }

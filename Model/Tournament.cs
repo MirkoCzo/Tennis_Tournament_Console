@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Tennis_Tournament_Console;
+using Tennis_Tournament_Console.DAO;
+using Tennis_Tournament_Console.Model;
+using System;
 using System.Collections.Generic;
 using System.IO.Packaging;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Tennis_Tournament_Console.DAO;
-using Tennis_Tournament_Console;
 using static Tennis_Tournament_Console.Schedule;
 
 namespace Tennis_Tournament_Console
@@ -17,6 +18,7 @@ namespace Tennis_Tournament_Console
         private string name;
         public static Queue<Court> courtsList;
         public static Queue<Referee> refereesList;
+        public static int round;
         public static DateTime date;
         private List<Schedule> scheduleList;
         private TournamentDAO tournamentDAO = new TournamentDAO();
@@ -26,17 +28,24 @@ namespace Tennis_Tournament_Console
             Tournament.id = id;
             this.name = name;
             Tournament.date = date;
-            Console.WriteLine("On rempli le tournoi");
             FillList();
         }
-        public Tournament(int id, string name)
+        public Tournament(int id,string name)
         {
-            Tournament.id = id;
+            Tournament.id=id;
             this.name = name;
         }
         public Tournament()
         {
-
+          
+        }
+        public Tournament(string name, DateTime date)
+        {
+            this.name = name;
+            Tournament.date = date;
+            int id = tournamentDAO.Create(this);
+            Tournament.id = id;
+            FillList();
         }
         public int getId() { return id; }
 
@@ -50,36 +59,26 @@ namespace Tennis_Tournament_Console
 
         public void Play()
         {
-            Console.WriteLine("Methode play :");
-            //Console.WriteLine("On Génère les Schedules");
-            //GenerateSchedules();
-            /*
-            foreach(Schedule schedule in scheduleList)
+            GenerateSchedules();
+            foreach (Schedule s in scheduleList)
             {
-                Console.WriteLine("Liste opponents :");
-                foreach (Opponents op in schedule.GetOpponentsList())
-                { 
-                    Console.WriteLine(op.Player1.getFirstname());
-                    if (op.Player2 != null)
+                if(s.GetType() == ScheduleType.GentlemenSingle || s.GetType() == ScheduleType.LadiesSingle)
+                {
+                    for (int i = 0; i < 7; i++)
                     {
-                        Console.WriteLine(op.Player2.getFirstname());
+                        s.PlayNextRound();
+                    }
+                    
+                }
+                else
+                {
+                    for (int i = 0; i < 6; i++)
+                    {
+                        s.PlayNextRound();
 
                     }
                 }
-            }
-            */
-            int id = tournamentDAO.Create(this);
-            this.setId(id);
-            foreach (Schedule s in scheduleList)
-            {
-                Console.WriteLine("On joue les schedules");
-                // Déterminez le nombre de rounds à jouer pour chaque type de schedule
-                int roundsToPlay = s.GetType() == ScheduleType.GentlemenSingle || s.GetType() == ScheduleType.LadiesSingle ? 7 : 6;
-
-                for (int i = 0; i < roundsToPlay; i++)
-                {
-                    s.PlayNextRound();  // Jouer le round actuel
-                }
+              
             }
         }
         public void GenerateSchedules()//1
@@ -90,18 +89,18 @@ namespace Tennis_Tournament_Console
                 this.scheduleList.Add(new Schedule(type));
             }
             FillSchedule();
-        }
+        }       
         public void FillSchedule()//2
         {
             List<Player> MenList = FetchPlayers("MALE");
             List<Player> WomenList = FetchPlayers("FEMALE");
             foreach (Schedule s in scheduleList)
             {
-                s.Fill(MenList, WomenList);
+                s.Fill(MenList,WomenList);
             }
-        }
-
-
+        }        
+        
+        
         public List<Player> FetchPlayers(string gender)
         {
             PlayerDAO playerDAO = new PlayerDAO();
@@ -112,15 +111,13 @@ namespace Tennis_Tournament_Console
         public void FillList()
         {
             CourtDAO courtDAO = new CourtDAO();
-            Console.WriteLine("On rempli les courts");
             Queue<Court> tmp = new Queue<Court>(courtDAO.FindAll());
             Tournament.courtsList = tmp;
-            Console.WriteLine("On rempli les arbitres");
             RefereeDAO refereeDAO = new RefereeDAO();
             Queue<Referee> tmp2 = new Queue<Referee>(refereeDAO.FindAll());
             Tournament.refereesList = tmp2;
         }
-
-
+        
+       
     }
 }

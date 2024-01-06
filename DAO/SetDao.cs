@@ -1,4 +1,4 @@
-﻿using Tennis_Tournament_Console;
+﻿using Tennis_Tournament_Console.Model;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -15,12 +15,12 @@ namespace Tennis_Tournament_Console.DAO
             int res = -1;
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using(SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    using (SqlCommand command = connection.CreateCommand())
+                    using(SqlCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "INSERT INTO dbo.Sets (Score_Op_One, Score_Op_Two, Set_Number, Id_Match) OUTPUT INSERTED.Id_Set VALUES (@scoreOp1, @scoreOp2, @setNumber, @id_match);";
+                        command.CommandText = "INSERT INTO dbo.Sets (Score_Op_One,Score_Op_Two , Set_Number, Id_Match) OUTPUT INSERTED.Id_Set VALUES (@scoreOp1, @scoreOp2, @setNumber, @id_match)";
                         command.Parameters.AddWithValue("scoreOp1", obj.getScoreOp1());
                         command.Parameters.AddWithValue("scoreOp2", obj.getScoreOp2());
                         command.Parameters.AddWithValue("setNumber", obj.getSetNumber());
@@ -28,11 +28,10 @@ namespace Tennis_Tournament_Console.DAO
                         res = Convert.ToInt32(command.ExecuteScalar());
                     }
                 }
-            }
-            catch (SqlException e)
+
+            }catch(SqlException e)
             {
-                Console.WriteLine($"SQL Error: {e.Message}");
-                Console.WriteLine($"Stack Trace: {e.StackTrace}");
+                Console.WriteLine(e.Message);
             }
             return res;
         }
@@ -47,7 +46,7 @@ namespace Tennis_Tournament_Console.DAO
                     connection.Open();
                     using(SqlCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "DELETE FROM Set WHERE Id_Set = @id";
+                        command.CommandText = "DELETE FROM dbo.Sets WHERE Id_Set = @id";
                         command.Parameters.AddWithValue("id", obj.getId());
                         command.ExecuteNonQuery();
                         success = true;
@@ -71,7 +70,7 @@ namespace Tennis_Tournament_Console.DAO
                     connection.Open();
                     using(SqlCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "SELECT * FROM Set WHERE Id_Set = @id";
+                        command.CommandText = "SELECT * FROM dbo.Sets WHERE Id_Set = @id";
                         command.Parameters.AddWithValue("id", id);
                         SqlDataReader reader = command.ExecuteReader();
                         if(reader.Read())
@@ -102,7 +101,7 @@ namespace Tennis_Tournament_Console.DAO
                     connection.Open();
                     using(SqlCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "SELECT * FROM Set";
+                        command.CommandText = "SELECT * FROM dbo.Sets";
                         SqlDataReader reader = command.ExecuteReader();
                         while(reader.Read())
                         {
@@ -135,7 +134,7 @@ namespace Tennis_Tournament_Console.DAO
                     connection.Open();
                     using(SqlCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "UPDATE Set SET Score_Op_One = @scoreOp1, Score_Op_Two = @scoreOp2, Set_Number = @setNumber, Id_Match = @id_match WHERE Id_Set = @id";
+                        command.CommandText = "UPDATE dbo.Sets SET Score_Op_One = @scoreOp1, Score_Op_Two = @scoreOp2, Set_Number = @setNumber, Id_Match = @id_match WHERE Id_Set = @id";
                         command.Parameters.AddWithValue("scoreOp1", obj.getScoreOp1());
                         command.Parameters.AddWithValue("scoreOp2", obj.getScoreOp2());
                         command.Parameters.AddWithValue("setNumber", obj.getSetNumber());

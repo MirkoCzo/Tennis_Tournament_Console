@@ -1,4 +1,4 @@
-﻿using Tennis_Tournament_Console;
+﻿using Tennis_Tournament_Console.Model;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -19,8 +19,8 @@ namespace Tennis_Tournament_Console.DAO
                 {
                     SqlCommand cmd = new SqlCommand($"INSERT INTO dbo.Games (Game_Number,Score_Op_One,Score_Op_Two,Id_Set) OUTPUT INSERTED.Id_Game VALUES (@GameNumber, @ScoreOne, @ScoreTwo, @Id_Set)", connection);
                     cmd.Parameters.AddWithValue("GameNumber", obj.getGameNumber());
-                    cmd.Parameters.AddWithValue("ScoreOne", obj.getScoreOpOne().Sum());//cmd.Parameters.AddWithValue("ScoreOne",obj.getScoreOpOne());si on veut tous enregister on doit soit faire une nouvelle table
-                    cmd.Parameters.AddWithValue("ScoreTwo", obj.getScoreOpTwo().Sum());//cmd.Parameters.AddWithValue("ScoreTwo", obj.getScoreOpTwo()); ou alors enregister en varchar
+                    cmd.Parameters.AddWithValue("ScoreOne",obj.getScoreOp1());
+                    cmd.Parameters.AddWithValue("ScoreTwo", obj.getScoreOp2());
                     cmd.Parameters.AddWithValue("Id_Set", obj.getIdSet());
 
                     connection.Open();

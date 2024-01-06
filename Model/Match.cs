@@ -1,12 +1,11 @@
-﻿
+﻿using Tennis_Tournament_Console.DAO;
+using Tennis_Tournament_Console.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using Tennis_Tournament_Console.DAO;
-using Tennis_Tournament_Console;
 
 namespace Tennis_Tournament_Console
 {
@@ -21,27 +20,54 @@ namespace Tennis_Tournament_Console
         private Opponents opponents2;
         private Referee referee;
         private Court court;
-        private List<Set> sets;
+        private List<Set> sets = new List<Set>();
         private int id_Tournament;
         private SetDAO setDAO = new SetDAO();
-
-
-
-        public Opponents GetWinner()
+        public Match(DateTime date, int duration, int round, int type, Opponents opponents1, Opponents opponents2, Referee referee, Court court, int id_Tournament)
         {
-            return this.GetWinner();
+            this.date = date;
+            this.duration = duration;
+            this.round = round;
+            this.type = type;
+            this.opponents1 = opponents1;
+            this.opponents2 = opponents2;
+            this.referee = referee;
+            this.court = court;
+            this.id_Tournament = id_Tournament;
+        }
+        public Match()
+        {
+            this.opponents1 = new Opponents();
+            this.opponents2 = new Opponents();
+            this.referee = new Referee();
+            this.court = new Court();
         }
 
         public async Task<Opponents> Play()
         {
-            sets = new List<Set>();
             int ScoreOp1 = 0;
             int ScoreOp2 = 0;
-            int setNumber = 1;
-            while (!CheckIfMatchIsFinished(ScoreOp1, ScoreOp2, this.type))
+            int setNumber = 0;
+            while (!CheckIfMatchIsFinished(ScoreOp1, ScoreOp2, type))
             {
                 Set set = new Set(this.id);
+                set.setSetNumber(setNumber);
+                set.setScoreOp1(ScoreOp1);
+                set.setScoreOp2(ScoreOp2);
+                setNumber++;
+                int id = setDAO.Create(set);
+                if (id != -1)
+                {
+                    set.setId(id);
+                    sets.Add(set);
+
+                }
+                else
+                {
+                    throw new Exception("Erreur lors de la création du set");
+                }
                 set.Play();
+                setDAO.Update(set);
                 if (set.GetWinner().Id == this.opponents1.Id)
                 {
                     ScoreOp1++;
@@ -50,15 +76,16 @@ namespace Tennis_Tournament_Console
                 {
                     ScoreOp2++;
                 }
-                set.setSetNumber(setNumber);
-                setNumber++;
-                int id = setDAO.Create(set);
-                Console.WriteLine("SET: " + set);
-                Console.WriteLine("SET ID: " + id);
-                set.setId(id);
-                sets.Add(set);
+                
+                
             }
-            if (ScoreOp1 > ScoreOp2)
+            return WhoWin(ScoreOp1, ScoreOp2);
+            
+            
+        }
+        private Opponents WhoWin(int countOp1, int countOp2)
+        {
+            if (countOp1 > countOp2)
             {
                 return this.opponents1;
             }
@@ -66,9 +93,13 @@ namespace Tennis_Tournament_Console
             {
                 return this.opponents2;
             }
-
-
         }
+        private bool CheckIfMatchIsFinished(int ScoreOp1, int ScoreOp2, int type)
+        {
+            int numberWinningSets = Schedule.GetNbWinningSets(type);
+            return (ScoreOp1 >= numberWinningSets) || (ScoreOp2 >= numberWinningSets);
+        }
+        //Getter Setter
         public int getId()
         {
             return id;
@@ -157,16 +188,29 @@ namespace Tennis_Tournament_Console
         {
             this.type = type;
         }
-
-        private bool CheckIfMatchIsFinished(int ScoreOp1, int ScoreOp2, int type)
+        public override string ToString()
         {
-            int numberWinningSets = Schedule.GetNbWinningSets(this.type);
-            return (ScoreOp1 >= numberWinningSets) || (ScoreOp2 >= numberWinningSets);
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"ID: {id}");
+            sb.AppendLine($"Date: {date}");
+            sb.AppendLine($"Duration: {duration}");
+            sb.AppendLine($"Round: {round}");
+            sb.AppendLine($"Type: {type}");
+            sb.AppendLine($"Opponents 1: {opponents1.Player1.getFirstname()}");
+            sb.AppendLine($"Opponents 2: {opponents1.Player2?.getFirstname() ?? "N/A"}");
+            sb.AppendLine("VS"); 
+            sb.AppendLine($"Opponents 2: {opponents2.Player1?.getFirstname()}");
+            sb.AppendLine($"Opponents 2: {opponents2.Player2?.getFirstname() ?? "N/A"}");
+            sb.AppendLine($"Referee: {referee}");
+            sb.AppendLine($"Court: {court}");
+            sb.AppendLine($"ID Tournament: {id_Tournament}");
+
+         
+
+            return sb.ToString();
         }
 
-        internal void setDuration(object value)
-        {
-            throw new NotImplementedException();
-        }
+
     }
+
 }

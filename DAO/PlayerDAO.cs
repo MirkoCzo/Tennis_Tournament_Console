@@ -6,7 +6,6 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using Tennis_Tournament_Console;
 
 namespace Tennis_Tournament_Console.DAO
 {
@@ -60,7 +59,7 @@ namespace Tennis_Tournament_Console.DAO
 
         public override Player Find(int id)
         { 
-            Player player = null;
+            Player player = new Player();
             try
             {
                 using(SqlConnection connection = new SqlConnection(connectionString))
@@ -71,8 +70,6 @@ namespace Tennis_Tournament_Console.DAO
                     SqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        player = new Player();
-                        Console.WriteLine("ID DU PLAYER"+reader.GetInt32(0));
                         player.setId(reader.GetInt32(0));
                         player.setFirstname(reader.GetString(1));
                         player.setLastname(reader.GetString(2));

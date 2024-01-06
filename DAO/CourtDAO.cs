@@ -1,5 +1,4 @@
-﻿using Tennis_Tournament_Console;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -94,8 +93,7 @@ namespace Tennis_Tournament_Console.DAO
                         Court court = new Court();
                         court.setId(reader.GetInt32(0));
                         court.setNbSpectators(reader.GetInt32(1));
-                        int intValue = reader.GetInt32(2);
-                        bool covered = (intValue != 0);       
+                        bool covered = reader.GetInt32(2) != 0;
                         court.setCovered(covered);
                         courts.Add(court);
                     }

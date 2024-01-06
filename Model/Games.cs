@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tennis_Tournament_Console
+namespace Tennis_Tournament_Console.Model
 {
     internal class Games
     {
         private int id;
+        private int scoreOp1;
+        private int scoreOp2;
         protected List<int> score_Op_One;
         protected List<int> score_Op_Two;
         private int id_set;
@@ -16,6 +18,10 @@ namespace Tennis_Tournament_Console
         public int getId() { return id; }
         public List<int> getScoreOpOne() { return score_Op_One; }
         public List<int> getScoreOpTwo() { return score_Op_Two; }
+
+        public int getScoreOp1() { return scoreOp1; }
+        public int getScoreOp2() { return scoreOp2; }
+
         public int getIdSet() { return id_set; }
         public int getGameNumber() { return gameNumber; }
 
@@ -43,14 +49,6 @@ namespace Tennis_Tournament_Console
 
         public Games()
         {
-            InitializeGame(0, 0, 0); // Default values
-        }
-
-        private void InitializeGame(int id, int id_set, int gameNumber)
-        {
-            this.id = id;
-            this.id_set = id_set;
-            this.gameNumber = gameNumber;
             this.score_Op_One = new List<int>();
             this.score_Op_Two = new List<int>();
         }
@@ -76,35 +74,23 @@ namespace Tennis_Tournament_Console
                 {
                     score_Op_Two.Add(player2Points++);
                     score_Op_One.Add(player1Points);
-
                 }
 
                 if (player1Points == 3 && player2Points == 3)//Gestion des égalités
                 {
-                    Console.WriteLine("Entrée HandleDeuce");
                     HandleDeuce(ref player1Points, ref player2Points);
                 }
-                DisplayCurrentScore(player1Points, player2Points);
 
             }
-            if (player1Points>player2Points) { Console.WriteLine("Le joueur 1 gagne le jeu"); }
-            else { Console.WriteLine("Le joueur 2 gagne le jeu"); }
-            Console.WriteLine("Récap des points du joueur 1: ");
-            foreach(int jeu in score_Op_One)
-            {
-                Console.WriteLine(jeu);
-            }
-            Console.WriteLine("Récap des points du joueur 2: ");
-            foreach (int jeu in score_Op_Two)
-            {
-                Console.WriteLine(jeu);
-            }
+            this.scoreOp1 = player1Points;
+            this.scoreOp2 = player2Points;
+
 
         }
         public void PlayTieBreak()
         {
             Random random = new Random();
-            int ptsCounter = 0;
+
             int player1Points = 0;
             int player2Points = 0;
 
@@ -116,28 +102,20 @@ namespace Tennis_Tournament_Console
                 {
                     score_Op_One.Add(player1Points++);
                     score_Op_Two.Add(player2Points);
-                    ptsCounter++;
                 }
                 else
                 {
                     score_Op_Two.Add(player2Points++);
                     score_Op_One.Add(player1Points);
-                    ptsCounter++;
                 }
-                DisplayCurrentScore(player1Points, player2Points);
-                if (ptsCounter%6==0)
-                {
-                    Console.WriteLine("Changement de côté");
-                }
+
             }
-            if (player1Points > player2Points) { Console.WriteLine("Le joueur 1 gagne le jeu"); }
-            else { Console.WriteLine("Le joueur 2 gagne le jeu"); }
 
         }
-       
+
         private bool IsTieBreakFinished(int player1Points, int player2Points)
         {
-            return (player1Points >= 7 && player1Points-player2Points>=2) || (player2Points>=7 && player2Points-player1Points >= 2) ;
+            return (player1Points >= 7 || player2Points >= 7) && (player1Points - player2Points) >= 2;
         }
 
 
@@ -149,49 +127,43 @@ namespace Tennis_Tournament_Console
         // Gestion des égalités (40-40)
         private void HandleDeuce(ref int player1Points, ref int player2Points)
         {
-            while (!IsHandleDeuceFinished(player1Points,player2Points))
+            while (!IsHandleDeuceFinished(player1Points, player2Points))
             {
                 bool player1WinsPoint = new Random().Next(2) == 0;
 
                 if (player1WinsPoint)
                 {
-                    Console.WriteLine("Point gagné joueur 1");
+                    //Console.WriteLine("Point gagné joueur 1");
                     player1Points++;
                     score_Op_One.Add(player1Points);
                     score_Op_Two.Add(player2Points);
-                    DisplayCurrentScore(player1Points, player2Points);
+                    //DisplayCurrentScore(player1Points, player2Points);
                 }
                 else
                 {
-                    Console.WriteLine("Point gagné joueur 2");
+                    //Console.WriteLine("Point gagné joueur 2");
                     player2Points++;
                     score_Op_One.Add(player2Points);
                     score_Op_Two.Add(player1Points);
-                    DisplayCurrentScore(player1Points, player2Points);
+                    //DisplayCurrentScore(player1Points, player2Points);
 
                 }
                 if (Math.Abs(player1Points - player2Points) == 0 && player1Points >= 4)
                 {
-                    Console.WriteLine("Perte d'avantage retour à l'égalité");
+                    //Console.WriteLine("Perte d'avantage retour à l'égalité");
                     player1Points = 3;
                     player2Points = 3;
                     score_Op_One.Add(player1Points);
                     score_Op_Two.Add(player2Points);
-                    DisplayCurrentScore(player1Points, player2Points);
+                    //DisplayCurrentScore(player1Points, player2Points);
                 }
             }
-            Console.WriteLine("Sortie HandleDeuce");
+            //Console.WriteLine("Sortie HandleDeuce");
         }
-        private bool IsHandleDeuceFinished(int player1Points,int player2Points)
+        private bool IsHandleDeuceFinished(int player1Points, int player2Points)
         {
-            return (player1Points>=5 && player1Points - player2Points>=2) || (player2Points>=5 && player2Points - player1Points>=2);
-        }
-
-        private void DisplayCurrentScore(int player1Points, int player2Points)
-        {
-            Console.WriteLine($"Current Score - Player 1: {player1Points}, Player 2: {player2Points}");
+            return (player1Points >= 5 && player1Points - player2Points >= 2) || (player2Points >= 5 && player2Points - player1Points >= 2);
         }
 
     }
-    }
-
+}

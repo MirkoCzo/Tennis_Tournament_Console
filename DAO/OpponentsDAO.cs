@@ -1,4 +1,4 @@
-﻿using Tennis_Tournament_Console;
+﻿using Tennis_Tournament_Console.Model;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -17,15 +17,14 @@ namespace Tennis_Tournament_Console.DAO
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand($"INSERT INTO dbo.Opponents(Id_Player_1, Id_Player_2) OUTPUT INSERTED.Id_Opponent VALUES(@Id_Player_1, @Id_Player_2)", connection);
+                    SqlCommand cmd = new SqlCommand($"INSERT INTO dbo.Opponents(Id_Player_1,Id_Player_2) OUTPUT INSERTED.Id_Opponent VALUES(@Id_Player_1,@Id_Player_2)", connection);
                     cmd.Parameters.AddWithValue("Id_Player_1", obj.Player1.getId());
                     cmd.Parameters.AddWithValue("Id_Player_2", obj.Player2?.getId() ?? (object)DBNull.Value);
                     connection.Open();
                     res = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
-            }
-            catch (SqlException ex)
+                }catch (SqlException ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -55,7 +54,7 @@ namespace Tennis_Tournament_Console.DAO
 
         public override Opponents Find(int id)
         {
-            Opponents opponents = null;
+            Opponents opponents = new Opponents();
             try
             {
                 using(SqlConnection connection = new SqlConnection(connectionString))

@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tennis_Tournament_Console;
 
 namespace Tennis_Tournament_Console.DAO
 {
@@ -29,8 +28,8 @@ namespace Tennis_Tournament_Console.DAO
                     cmd.Parameters.AddWithValue("Id_Opponent_1", obj.getOpponents1().Id);
                     cmd.Parameters.AddWithValue("Id_Opponent_2", obj.getOpponents2().Id);
                     cmd.Parameters.AddWithValue("Id_Tournament", obj.getId_Tournament());
-                    cmd.Parameters.AddWithValue("Id_Court", obj.getCourt().getId());
-                    cmd.Parameters.AddWithValue("Id_Ref", obj.getReferee().getId());
+                    cmd.Parameters.AddWithValue("Id_Court", obj.getCourt()?.getId() ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("Id_Ref", obj.getReferee()?.getId() ?? (object)DBNull.Value);
                     connection.Open();
                     res = Convert.ToInt32(cmd.ExecuteScalar());
                 }
@@ -65,18 +64,18 @@ namespace Tennis_Tournament_Console.DAO
 
         public override Match Find(int id)
         {
-            Match match = null;
-            try
+            Match match = new Match();
+            try 
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+               using(SqlConnection connection = new SqlConnection(connectionString))
                 {
                     SqlCommand cmd = new SqlCommand($"SELECT * FROM dbo.Match WHERE Id_Match = @Id", connection);
-                    cmd.Parameters.AddWithValue("Id", id); 
+                    cmd.Parameters.AddWithValue("Id", id);
                     connection.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.Read())
+                    if(reader.Read())
                     {
-                        match = new Match();
+
                         match.setId((int)reader["Id_Match"]);
                         match.setDate((DateTime)reader["Date"]);
                         match.setDuration((int)reader["Duration"]);
@@ -85,18 +84,21 @@ namespace Tennis_Tournament_Console.DAO
                         match.setId_Tournament((int)reader["Id_Tournament"]);
 
                         OpponentsDAO opponentsDAO = new OpponentsDAO();
-                        match.setOpponents1(opponentsDAO.Find((int)reader["Id_Opponent_1"]));
-                        match.setOpponents2(opponentsDAO.Find((int)reader["Id_Opponent_2"]));
+                        int idOpponent1 = (int)reader["Id_Opponent_1"];
+                        int idOpponent2 = (int)reader["Id_Opponent_2"];
+                        match.setOpponents1(idOpponent1 != 0 ? opponentsDAO.Find(idOpponent1) : null);
+                        match.setOpponents2(idOpponent2 != 0 ? opponentsDAO.Find(idOpponent2) : null);
 
                         CourtDAO courtDAO = new CourtDAO();
-                        match.setCourt(courtDAO.Find((int)reader["Id_Court"])); // Utilisation d'un DAO pour instancier Court
+                        int idCourt = (int)reader["Id_Court"];
+                        match.setCourt(idCourt != 0 ? courtDAO.Find(idCourt) : null);
 
                         RefereeDAO refereeDAO = new RefereeDAO();
-                        match.setReferee(refereeDAO.Find((int)reader["Id_Ref"]));
+                        int idRef = (int)reader["Id_Ref"];
+                        match.setReferee(idRef != 0 ? refereeDAO.Find(idRef) : null);
                     }
                 }
-            }
-            catch (SqlException ex)
+            }catch(SqlException ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -156,7 +158,7 @@ namespace Tennis_Tournament_Console.DAO
                     cmd.Parameters.AddWithValue("Id_Tournament", obj.getId_Tournament());
                     cmd.Parameters.AddWithValue("Id_Court", obj.getCourt().getId());
                     cmd.Parameters.AddWithValue("Id_Ref", obj.getReferee().getId());
-                    cmd.Parameters.AddWithValue("Id_match", obj.getId());
+                    cmd.Parameters.AddWithValue("Id", obj.getId());
                     connection.Open();
                     int res = cmd.ExecuteNonQuery();
                     success = res > 0;

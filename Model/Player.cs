@@ -12,16 +12,6 @@ namespace Tennis_Tournament_Console
         private int rank;
         private string gender;
 
-        public Player() { }
-
-        public Player(int id, string firstname, string lastname, string nationality, int rank, string gender)
-            : base(id, firstname, lastname, nationality) 
-        {
-            this.rank = rank;
-            this.gender = gender;
-        }
-
-
         public int getRank()
         {
             return rank;

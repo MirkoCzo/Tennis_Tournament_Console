@@ -1,4 +1,4 @@
-﻿using Tennis_Tournament_Console;
+﻿using Tennis_Tournament_Console.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

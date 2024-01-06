@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tennis_Tournament_Console;
+
 namespace Tennis_Tournament_Console.DAO
 {
     class TournamentDAO : DAO<Tournament>
